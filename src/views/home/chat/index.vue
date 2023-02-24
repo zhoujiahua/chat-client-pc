@@ -1,36 +1,36 @@
 <template>
-  <div class="chatHome">
-    <div class="chatLeft">
+  <div class="chat-home">
+    <div class="chat-left">
       <div class="title">
-        <div class="avatar">
-          <el-avatar :size="80" :src="avatar"></el-avatar>
+        <div class="avatar" @click="onAvatar">
+          <el-avatar :size="80" :src="avatar"/>
         </div>
       </div>
       <div class="online-person">
-        <div class="onlin-text">
+        <div class="online-text">
           <strong>服务技师列表</strong>
         </div>
         <div class="person-cards-wrapper">
           <div
-            class="personList"
-            v-for="personInfo in personList"
-            :key="personInfo.id"
-            @click="clickPerson(personInfo)"
+              class="personList"
+              v-for="personInfo in personList"
+              :key="personInfo.id"
+              @click="clickPerson(personInfo)"
           >
             <PersonCard
-              :personInfo="personInfo"
-              :pcCurrent="pcCurrent"
+                :personInfo="personInfo"
+                :pcCurrent="pcCurrent"
             ></PersonCard>
           </div>
         </div>
       </div>
     </div>
     <div class="chatRight">
-      <router-view></router-view>
+      <router-view/>
       <div v-if="showChatWindow">
         <ChatWindow
-          :frinedInfo="chatWindowInfo"
-          @personCardSort="personCardSort"
+            :frinedInfo="chatWindowInfo"
+            @personCardSort="personCardSort"
         />
       </div>
       <div class="showIcon" v-else>
@@ -41,10 +41,11 @@
 </template>
 
 <script>
-import { getFriend } from "@/api/getData";
-import ChatWindow from "./chat-window.vue";
+import {getFriend} from "@/api/getData";
+import ChatWindow from "./window.vue";
 import avatar from "@/assets/img/logo-cc.png";
 import PersonCard from "@/components/PersonCard.vue";
+import window from "@/views/home/chat/window.vue";
 
 export default {
   name: "HomeChat",
@@ -68,8 +69,11 @@ export default {
     });
   },
   methods: {
+    onAvatar() {
+      location.replace('https://opentmd.com');
+    },
     clickPerson(info) {
-      this.showChatWindow = true;
+      this.showChatWindow = !this.showChatWindow;
       this.chatWindowInfo = info;
       this.personInfo = info;
       this.pcCurrent = info.id;
@@ -93,10 +97,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.chatHome {
+.chat-home {
   display: flex;
+  height: 100%;
 
-  .chatLeft {
+  .chat-left {
     width: 280px;
 
     .title {
@@ -105,6 +110,10 @@ export default {
       flex-direction: row;
       padding: 20px 0 10px;
       justify-content: center;
+
+      .avatar {
+        cursor: pointer;
+      }
     }
 
     .online-person {
@@ -136,11 +145,18 @@ export default {
     .showIcon {
       width: 100%;
       height: 100%;
+
       .ifr {
         width: 100%;
         height: 100%;
         border-radius: 5px;
       }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .chat-left {
+      display: none;
     }
   }
 }

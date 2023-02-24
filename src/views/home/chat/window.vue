@@ -18,27 +18,27 @@
           <span class="iconfont icon-tupian"></span>
         </label>
         <input
-          type="file"
-          name=""
-          id="imgFile"
-          @change="sendImg"
-          accept="image/*"
+            type="file"
+            name=""
+            id="imgFile"
+            @change="sendImg"
+            accept="image/*"
         />
         <input
-          type="file"
-          name=""
-          id="docFile"
-          @change="sendFile"
-          accept="application/*,text/*"
+            type="file"
+            name=""
+            id="docFile"
+            @change="sendFile"
+            accept="application/*,text/*"
         />
       </div>
     </div>
     <div class="botoom">
       <div class="chat-content" ref="chatContent">
         <div
-          class="chat-wrapper"
-          v-for="(item, index) in chatList"
-          :key="item.id"
+            class="chat-wrapper"
+            v-for="(item, index) in chatList"
+            :key="item.id"
         >
           <!-- <div v-if="isSend && index == chatList.length - 1">
             <div class="chat-friend" v-if="item.uid !== '1001'">
@@ -54,7 +54,7 @@
           </div>-->
           <div class="chat-friend" v-if="item.uid !== '1001'">
             <div class="info-time">
-              <img :src="item.headImg" alt="" />
+              <img :src="item.headImg" alt=""/>
               <span>{{ item.name }}</span>
               <span>{{ item.time }}</span>
             </div>
@@ -68,10 +68,10 @@
             </div>
             <div class="chat-img" v-if="item.chatType == 1">
               <img
-                :src="item.msg"
-                alt="表情"
-                v-if="item.extend.imgType == 1"
-                style="width: 100px; height: 100px"
+                  :src="item.msg"
+                  alt="表情"
+                  v-if="item.extend.imgType == 1"
+                  style="width: 100px; height: 100px"
               />
               <el-image :src="item.msg" :preview-src-list="srcImgList" v-else>
               </el-image>
@@ -79,8 +79,8 @@
             <div class="chat-img" v-if="item.chatType == 2">
               <div class="word-file">
                 <FileCard
-                  :fileType="item.extend.fileType"
-                  :file="item.msg"
+                    :fileType="item.extend.fileType"
+                    :file="item.msg"
                 ></FileCard>
               </div>
             </div>
@@ -89,31 +89,31 @@
             <div class="info-time">
               <span>{{ item.name }}</span>
               <span>{{ item.time }}</span>
-              <img :src="item.headImg" alt="" />
+              <img :src="item.headImg" alt=""/>
             </div>
             <div class="chat-text" v-if="item.chatType == 0">
               {{ item.msg }}
             </div>
             <div class="chat-img" v-if="item.chatType == 1">
               <img
-                :src="item.msg"
-                alt="表情"
-                v-if="item.extend.imgType == 1"
-                style="width: 100px; height: 100px"
+                  :src="item.msg"
+                  alt="表情"
+                  v-if="item.extend.imgType == 1"
+                  style="width: 100px; height: 100px"
               />
               <el-image
-                style="max-width: 300px; border-radius: 10px"
-                :src="item.msg"
-                :preview-src-list="srcImgList"
-                v-else
+                  style="max-width: 300px; border-radius: 10px"
+                  :src="item.msg"
+                  :preview-src-list="srcImgList"
+                  v-else
               >
               </el-image>
             </div>
             <div class="chat-img" v-if="item.chatType == 2">
               <div class="word-file">
                 <FileCard
-                  :fileType="item.extend.fileType"
-                  :file="item.msg"
+                    :fileType="item.extend.fileType"
+                    :file="item.msg"
                 ></FileCard>
               </div>
             </div>
@@ -131,9 +131,12 @@
             @closeEmoji="clickEmoji"
           ></Emoji>
         </div> -->
-        <input class="inputs" v-model="inputMsg" @keyup.enter="sendText" />
-        <el-button class="send boxinput" :disabled="isSend" @click="sendText">
-          <img src="@/assets/img/emoji/rocket.png" alt="" />
+        <input class="inputs" v-model="inputMsg" @keyup.enter="sendText"/>
+        <el-button class="send boxinput" :disabled="isSend" @click.native="sendText">
+          <img src="@/assets/img/emoji/rocket.png" alt="Submit"/>
+        </el-button>
+        <el-button class="send boxinput" :disabled="isSend" @click.native="clearText">
+          <img src="@/assets/img/emoji/shamrock.png" alt="Clear"/>
         </el-button>
       </div>
     </div>
@@ -142,11 +145,12 @@
 
 <script>
 import dayjs from "dayjs";
-import { animation } from "@/util/util";
-import { getChatMsg, chatgpt } from "@/api/getData";
+import {animation} from "@/util/util";
+import {getChatMsg, chatgpt} from "@/api/getData";
 import HeadPortrait from "@/components/HeadPortrait";
 import Emoji from "@/components/Emoji";
 import FileCard from "@/components/FileCard.vue";
+
 export default {
   components: {
     HeadPortrait,
@@ -255,6 +259,12 @@ export default {
         });
       }
     },
+
+    // 清除输入框内容
+    clearText() {
+      this.inputMsg = "";
+    },
+
     //发送表情
     sendEmoji(msg) {
       let chatMsg = {
@@ -391,7 +401,6 @@ export default {
 .chat-window {
   width: 100%;
   height: 100%;
-  margin-left: 20px;
   position: relative;
 
   .top {

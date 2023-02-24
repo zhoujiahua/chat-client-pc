@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="content">
-      <router-view />
+      <router-view/>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  overflow: auto;
   flex-wrap: nowrap;
   align-items: center;
   flex-direction: column;
