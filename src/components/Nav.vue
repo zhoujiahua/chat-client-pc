@@ -3,10 +3,10 @@
     <div class="nav-menu-wrapper">
       <ul class="menu-list">
         <li
-            v-for="(item, index) in menuList"
-            :key="index"
-            :class="{ activeNav: index == current }"
-            @click="changeMenu(index)"
+          v-for="(item, index) in menuList"
+          :key="index"
+          :class="{ activeNav: index == current }"
+          @click="changeMenu(index)"
         >
           <div class="block"></div>
           <span class="iconfont" :class="item"></span>
@@ -14,7 +14,7 @@
       </ul>
     </div>
     <div class="own-pic">
-      <HeadPortrait :imgUrl="imgUrl"></HeadPortrait>
+      <HeadPortrait :imgUrl="imgUrl" />
     </div>
   </div>
 </template>
@@ -36,17 +36,15 @@ export default {
         "icon-shezhi",
       ],
       current: 0,
-      imgUrl: require('@/assets/img/head_portrait.jpg')
+      imgUrl: require("@/assets/img/head_portrait.jpg"),
     };
   },
   methods: {
     changeMenu(index) {
+      this.current = index;
       switch (index) {
         case 0:
-          this.$router.push({
-            name: "ChatHome",
-          }, () => {
-          });
+          this.$router.push("/home/chat");
           break;
         case 1:
           this.$message("该功能还没有开发哦，敬请期待一下吧~🥳");
@@ -61,12 +59,8 @@ export default {
           this.$message("该功能还没有开发哦，敬请期待一下吧~🥳");
           break;
         default:
-          this.$router.push({
-            name: "ChatGGG",
-          });
+          this.$router.push("/about");
       }
-
-      this.current = index;
     },
   },
 };
@@ -74,7 +68,7 @@ export default {
 
 <style lang="scss" scoped>
 .nav {
-  height: 90vh;
+  height: 100%;
   position: relative;
   width: 100%;
   border-radius: 20px 0 0 20px;

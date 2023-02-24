@@ -1,37 +1,39 @@
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomeView from "@/views/home/index.vue";
+import AboutView from "@/views/about/index.vue"
 
-import ChatHome from '../view/pages/chatHome/index.vue'
-import Video from '../view/pages/video.vue'
-import Lingting from '../view/pages/lingting.vue'
-import Setting from '../view/pages/setting.vue'
-import ChatWindow from '../view/pages/chatHome/chatwindow.vue'
+Vue.use(VueRouter);
 
-export default new VueRouter({
-    // mode: 'history',
-    routes: [
-        {
-            path: "/",
-            redirect: "/ChatHome",
-          },
-        {
-            path: "/ChatHome",
-            name: "ChatHome",
-            component: ChatHome,
-        },
-        {
-            path: "/Video",
-            name: "Video",
-            component: Video
-        },
-        {
-            path: "/Lingting",
-            name: "Lingting",
-            component: Lingting
-        },
-        {
-            path: "/Setting",
-            name: "Setting",
-            component: Setting
-        },
+const routes = [
+  {
+    path: "/",
+    redirect: "/home",
+  },
+  {
+    path: "/home",
+    name: "home",
+    component: HomeView,
+    redirect: "/home/chat",
+    children: [
+      {
+        path: "/home/chat",
+        name: "HomeChat",
+        component: () => import("@/views/home/chat/index.vue")
+      }
     ]
-})
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: AboutView,
+  },
+];
+
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes,
+});
+
+export default router;

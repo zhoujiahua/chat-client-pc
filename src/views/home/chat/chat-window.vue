@@ -17,14 +17,29 @@
         <label for="imgFile">
           <span class="iconfont icon-tupian"></span>
         </label>
-        <input type="file" name="" id="imgFile" @change="sendImg" accept="image/*" />
-        <input type="file" name="" id="docFile" @change="sendFile" accept="application/*,text/*" />
-        <!-- accept="application/*" -->
+        <input
+          type="file"
+          name=""
+          id="imgFile"
+          @change="sendImg"
+          accept="image/*"
+        />
+        <input
+          type="file"
+          name=""
+          id="docFile"
+          @change="sendFile"
+          accept="application/*,text/*"
+        />
       </div>
     </div>
     <div class="botoom">
       <div class="chat-content" ref="chatContent">
-        <div class="chat-wrapper" v-for="(item, index) in chatList" :key="item.id">
+        <div
+          class="chat-wrapper"
+          v-for="(item, index) in chatList"
+          :key="item.id"
+        >
           <!-- <div v-if="isSend && index == chatList.length - 1">
             <div class="chat-friend" v-if="item.uid !== '1001'">
               <div class="info-time">
@@ -47,16 +62,26 @@
               <template v-if="isSend && index == chatList.length - 1">
                 <span class="flash_cursor"></span>
               </template>
-              <template v-else><pre>{{ item.msg }}</pre></template>
+              <template v-else>
+                <pre>{{ item.msg }}</pre>
+              </template>
             </div>
             <div class="chat-img" v-if="item.chatType == 1">
-              <img :src="item.msg" alt="表情" v-if="item.extend.imgType == 1" style="width: 100px; height: 100px" />
+              <img
+                :src="item.msg"
+                alt="表情"
+                v-if="item.extend.imgType == 1"
+                style="width: 100px; height: 100px"
+              />
               <el-image :src="item.msg" :preview-src-list="srcImgList" v-else>
               </el-image>
             </div>
             <div class="chat-img" v-if="item.chatType == 2">
               <div class="word-file">
-                <FileCard :fileType="item.extend.fileType" :file="item.msg"></FileCard>
+                <FileCard
+                  :fileType="item.extend.fileType"
+                  :file="item.msg"
+                ></FileCard>
               </div>
             </div>
           </div>
@@ -70,20 +95,29 @@
               {{ item.msg }}
             </div>
             <div class="chat-img" v-if="item.chatType == 1">
-              <img :src="item.msg" alt="表情" v-if="item.extend.imgType == 1" style="width: 100px; height: 100px" />
-              <el-image style="max-width: 300px; border-radius: 10px" :src="item.msg" :preview-src-list="srcImgList"
-                v-else>
+              <img
+                :src="item.msg"
+                alt="表情"
+                v-if="item.extend.imgType == 1"
+                style="width: 100px; height: 100px"
+              />
+              <el-image
+                style="max-width: 300px; border-radius: 10px"
+                :src="item.msg"
+                :preview-src-list="srcImgList"
+                v-else
+              >
               </el-image>
             </div>
             <div class="chat-img" v-if="item.chatType == 2">
               <div class="word-file">
-                <FileCard :fileType="item.extend.fileType" :file="item.msg"></FileCard>
+                <FileCard
+                  :fileType="item.extend.fileType"
+                  :file="item.msg"
+                ></FileCard>
               </div>
             </div>
-
           </div>
-
-
         </div>
       </div>
       <div class="chatInputs">
@@ -98,7 +132,7 @@
           ></Emoji>
         </div> -->
         <input class="inputs" v-model="inputMsg" @keyup.enter="sendText" />
-        <el-button class="send boxinput" :disabled = "isSend" @click="sendText">
+        <el-button class="send boxinput" :disabled="isSend" @click="sendText">
           <img src="@/assets/img/emoji/rocket.png" alt="" />
         </el-button>
       </div>
@@ -137,7 +171,7 @@ export default {
       showEmoji: false,
       friendInfo: {},
       srcImgList: [],
-      isSend: false
+      isSend: false,
     };
   },
   mounted() {
@@ -157,7 +191,6 @@ export default {
           }
         });
         this.scrollBottom();
-
       });
     },
     //发送信息
@@ -181,31 +214,31 @@ export default {
       if (this.inputMsg) {
         let chatMsg = {
           headImg: require("@/assets/img/head_portrait.jpg"),
-          name: "卧龙",
-          time: new Date().toLocaleTimeString(),
+          name: "主人",
+          time: dayjs().format("h:mm:ss A"),
           msg: this.inputMsg,
           chatType: 0, //信息类型，0文字，1图片
           uid: "1001", //uid
         };
         this.sendMsg(chatMsg);
-        this.$emit('personCardSort', this.frinedInfo.id)
+        this.$emit("personCardSort", this.frinedInfo.id);
         this.inputMsg = "";
         let data = {
           prompt: chatMsg.msg,
           temperature: 1,
           top_p: 1,
-          model: 'text-davinci-003',
+          model: "text-davinci-003",
           max_tokens: 2048,
           frequency_penalty: 0,
           presence_penalty: 0,
-          stop: ["Human:", "AI:"]
-        }
-        this.loading = true
+          stop: ["Human:", "AI:"],
+        };
+        this.loading = true;
         this.isSend = true;
         let chatGPT = {
           headImg: require("@/assets/img/head_portrait1.jpg"),
           name: "AI 1号",
-          time: dayjs().format('h:mm:ss A'),
+          time: dayjs().format("h:mm:ss A"),
           msg: "",
           chatType: 0, //信息类型，0文字，1图片
           uid: "1002", //uid
@@ -213,10 +246,8 @@ export default {
         this.sendMsg(chatGPT);
         chatgpt(data).then((res) => {
           this.isSend = false;
-          this.chatList[this.chatList.length-1].msg = res.choices[0].text;
+          this.chatList[this.chatList.length - 1].msg = res.choices[0].text;
         });
-
-
       } else {
         this.$message({
           message: "消息不能为空哦~",
@@ -341,7 +372,7 @@ export default {
   }
 
   25% {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   50% {
@@ -349,7 +380,7 @@ export default {
   }
 
   75% {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   100% {
@@ -460,7 +491,7 @@ export default {
               background-color: rgb(39, 42, 55);
             }
 
-            pre{
+            pre {
               white-space: break-spaces;
             }
           }

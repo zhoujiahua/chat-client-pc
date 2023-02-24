@@ -5,22 +5,21 @@
         <div class="avatar">
           <el-avatar :size="80" :src="avatar"></el-avatar>
         </div>
-        <!--        <h1>Open AI</h1>-->
-        <!--        <br />-->
-        <!--        <p>Welcome, please open your first experience!</p>-->
       </div>
       <div class="online-person">
-        <span class="onlin-text">聊天列表</span>
+        <div class="onlin-text">
+          <strong>服务技师列表</strong>
+        </div>
         <div class="person-cards-wrapper">
           <div
-              class="personList"
-              v-for="personInfo in personList"
-              :key="personInfo.id"
-              @click="clickPerson(personInfo)"
+            class="personList"
+            v-for="personInfo in personList"
+            :key="personInfo.id"
+            @click="clickPerson(personInfo)"
           >
             <PersonCard
-                :personInfo="personInfo"
-                :pcCurrent="pcCurrent"
+              :personInfo="personInfo"
+              :pcCurrent="pcCurrent"
             ></PersonCard>
           </div>
         </div>
@@ -30,28 +29,25 @@
       <router-view></router-view>
       <div v-if="showChatWindow">
         <ChatWindow
-            :frinedInfo="chatWindowInfo"
-            @personCardSort="personCardSort"
-        ></ChatWindow>
+          :frinedInfo="chatWindowInfo"
+          @personCardSort="personCardSort"
+        />
       </div>
       <div class="showIcon" v-else>
-        <!--        <span class="iconfont icon-snapchat"></span>-->
-        <img src="@/assets/img/snapchat.png" alt=""/>
+        <iframe src="/static/cs.html" frameborder="0" class="ifr"></iframe>
       </div>
     </div>
-    <!--     <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>-->
   </div>
 </template>
 
 <script>
-import avatar from "@/assets/img/logo-cc.png"
+import { getFriend } from "@/api/getData";
+import ChatWindow from "./chat-window.vue";
+import avatar from "@/assets/img/logo-cc.png";
 import PersonCard from "@/components/PersonCard.vue";
-import ChatWindow from "./chatwindow.vue";
-
-import {getFriend} from "@/api/getData";
 
 export default {
-  name: "App",
+  name: "HomeChat",
   components: {
     PersonCard,
     ChatWindow,
@@ -98,7 +94,6 @@ export default {
 
 <style lang="scss" scoped>
 .chatHome {
-  // margin-top: 20px;
   display: flex;
 
   .chatLeft {
@@ -106,16 +101,15 @@ export default {
 
     .title {
       color: #fff;
-      padding-left: 10px;
+      display: flex;
+      flex-direction: row;
+      padding: 20px 0 10px;
+      justify-content: center;
     }
 
     .online-person {
-      margin-top: 60px;
-
-      .onlin-text {
-        padding-left: 10px;
-        color: rgb(176, 178, 189);
-      }
+      color: #fff;
+      text-align: center;
 
       .person-cards-wrapper {
         padding-left: 10px;
@@ -135,21 +129,17 @@ export default {
   }
 
   .chatRight {
-    flex: 1;
-    //border-radius:5px;
-    padding: 10px 30px 0;
-    border-left: 1px solid #C0C4CC;
-    //background-color:#C0C4CC;
+    width: 100%;
+    min-height: 100%;
+    margin-left: 20px;
 
     .showIcon {
-      position: absolute;
-      top: calc(50% - 150px); /*垂直居中 */
-      left: calc(50% - 50px); /*水平居中 */
-      .icon-snapchat {
-        width: 300px;
-        height: 300px;
-        font-size: 300px;
-        // color: rgb(28, 30, 44);
+      width: 100%;
+      height: 100%;
+      .ifr {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
       }
     }
   }
